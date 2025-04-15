@@ -2,7 +2,7 @@
 
     const previewSize = 150
 
-    //open modal
+    //open modals
     const modalButtons = document.querySelectorAll('[data-modal="true"]')
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {

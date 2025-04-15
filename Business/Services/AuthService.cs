@@ -30,8 +30,8 @@ public class AuthService(SignInManager<UserEntity> signInManager, UserManager<Us
         var userEntity = new UserEntity
         {
             UserName = signupForm.Email,
-            FirstName = signupForm.FullName.Split(' ')[0],
-            LastName = signupForm.FullName.Split(' ').Length > 1 ? signupForm.FullName.Split(' ')[1] : "",
+            FirstName = signupForm.FirstName,
+            LastName = signupForm.LastName,
             Email = signupForm.Email,
         };
 

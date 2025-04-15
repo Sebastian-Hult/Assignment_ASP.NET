@@ -12,23 +12,28 @@
                 <h1 class="mb-4 text-center">@ViewData["Title"]</h1>
                 <form asp-controller="Auth" asp-action="SignUp" method="post" novalidate enctype="multipart/form-data">
                     <div class="form-group mb-4">
-                        <label asp-for="FullName">Full Name</label>
-                        <input asp-for="FullName" type="text" class="form-control" placeholder="Your full name">
-                        <span asp-validation-for="FullName"></span>
+                        <label asp-for="FirstName">First Name</label>
+                        <input asp-for="FirstName" type="text" class="form-control" placeholder="Your first name">
+                        <span asp-validation-for="FirstName"></span>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label asp-for="LastName">Last Name</label>
+                        <input asp-for="LastName" type="text" class="form-control" placeholder="Your last name">
+                        <span asp-validation-for="LastName"></span>
                     </div>
                     <div class="form-group mb-4">
                         <label asp-for="Email">Email</label>
-                        <input asp-for="Email" type="text" class="form-control" placeholder="Your email address">
+                        <input asp-for="Email" type="email" class="form-control" placeholder="Your email address">
                         <span asp-validation-for="Email"></span>
                     </div>
                     <div class="form-group mb-4">
                         <label asp-for="Password">Password</label>
-                        <input asp-for="Password" type="text" class="form-control" placeholder="Enter your password">
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password">
                         <span asp-validation-for="Password"></span>
                     </div>
                     <div class="form-group mb-4">
                         <label asp-for="ConfirmPassword">Confirm Password</label>
-                        <input asp-for="ConfirmPassword" type="text" class="form-control" placeholder="Confirm your password">
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password">
                         <span asp-validation-for="ConfirmPassword"></span>
                     </div>
                     <div class="form-group-check mb-3">
