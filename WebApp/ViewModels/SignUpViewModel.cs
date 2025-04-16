@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Business.Dtos;
+namespace WebApp.ViewModels;
 
-public class UserSignUpForm
+public class SignUpViewModel
 {
     [Display(Name = "Fisrt Name", Prompt = "Enter first name")]
     [DataType(DataType.Text)]
@@ -30,7 +30,6 @@ public class UserSignUpForm
     [Required(ErrorMessage = "Required")]
     public string ConfirmPassword { get; set; } = null!;
 
-    [Display(Name = "Terms & Conditions", Prompt = "I accept the terms & conditions.")]
-    [Required(ErrorMessage = "Required")]
+    [Range(typeof(bool), "true", "true")]
     public bool TermsAndConditions { get; set; }
 }

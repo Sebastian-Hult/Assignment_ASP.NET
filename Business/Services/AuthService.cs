@@ -42,4 +42,10 @@ public class AuthService(SignInManager<UserEntity> signInManager, UserManager<Us
         }
         return false;
     }
+
+    public async Task<bool> SignOutAsync()
+    {
+        await _signInManager.SignOutAsync();
+        return true;
+    }
 }

@@ -1,0 +1,28 @@
+﻿<partial name="Partials/Components/_EditProjectModal" />
+
+<div class="main-bottom">
+    <div class="project-cards">
+        <div class="project-card">
+            <div class="project-header">
+                <img class="project-img" src="~/images/Project-image.svg" alt="Project Picture">
+                <div class="project-info">
+                    <h4 class="project-name">Test Project</h4>
+                    <p class="project-client">Test Inc.</p>
+                </div>
+                <div type="button" data-option="true" data-target="#addProjectOptions"><i class="fa-solid fa-ellipsis btn-more"></i></div>
+                <div id="addProjectOptions" class="surface-sm options">
+                    <div type="button" data-modal="true" data-target="#editProjectModal" class="option edit">
+                        <i class="fa-duotone fa-solid fa-pen-line"></i>
+                        <p>Edit</p>
+                    </div>
+                    <div class="option delete">
+                        <i class="fa-duotone fa-solid fa-trash"></i>
+                        <p>Delete Project</p>
+                    </div>
+                </div>
+            </div>
+            <p class="project-desc">This is a test for a project card, to se how it will look like when populated</p>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,90 @@
+﻿@using Data.Entities
+@model EditProjectForm
+
+<div id="editProjectModal" class="modal">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h3>Edit Project</h3>
+            <button type="button" class="btn-close" data-close="true"></button>
+        </div>
+
+        <form novalidate method="" asp-action="" asp-controller="">
+
+            <div class="image-previewer square">
+                <img src="" class="image-preview" />
+                <input accept="image/*" class="d-none" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProjectName">Project Name</label>
+                <div class="field-group">
+                    <input asp-for="ProjectName" class="input-validation-error" type="text" placeholder="Project name" />
+                    <span asp-validation-for="ProjectName" class="field-validation-error"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientName">Client</label>
+                <div class="field-group">
+                    <select name="client" id="client">
+                        <option value="choose">-- Choose a Client --</option>
+                        @* @foreach (var clients in ClientEntity) *@
+                        @* { *@
+                        @*     <option value="clients">@Model.ClientName</option> *@
+                        @* } *@
+
+                    </select>
+                    <span asp-validation-for="ClientName" class="field-validation-error">Required</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <div class="field-group">
+                    <input asp-for="Description" class="input-validation-error" type="text" placeholder="Type something" />
+                    <span asp-validation-for="Description" class="field-validation-error"></span>
+                </div>
+            </div>
+            <div class="form-group-date">
+                <div>
+                    <label asp-for="StartDate">Start Date</label>
+                    <div class="field-group">
+                        <input asp-for="StartDate" class="input-validation-error" type="date" placeholder="Enter start date" />
+                        <span asp-validation-for="StartDate" class="field-validation-error"></span>
+                    </div>
+                </div>
+                <div>
+                    <label asp-for="EndDate">End Date</label>
+                    <div class="field-group">
+                        <input asp-for="EndDate" class="input-validation-error" type="date" placeholder="Enter end date" />
+                        <span asp-validation-for="EndDate" class="field-validation-error"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+
+            </div> -->
+            <div class="form-group">
+                <label asp-for="Budget">Budget</label>
+                <div class="field-group">
+                    <input asp-for="Budget" class="input-validation-error" type="text" placeholder="0" />
+                    <span asp-validation-for="Budget" class="field-validation-error">Required</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status">Status</label>
+                <div class="field-group">
+                    <select name="status" id="status">
+                        <option value="choose">-- Choose a status --</option>
+                        <option value="started">Started</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <span asp-validation-for="Status" class="field-validation-error">Required</span>
+                </div>
+            </div>
+
+            <button class="btn btn-blue btn-submit">Save</button>
+
+        </form>
+
+    </div>
+</div>

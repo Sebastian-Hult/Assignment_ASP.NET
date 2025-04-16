@@ -11,6 +11,11 @@
             <div class="cetner-content">
                 <h1 class="mb-4 text-center">@ViewData["Title"]</h1>
                 <form asp-controller="Auth" asp-action="SignUp" method="post" novalidate enctype="multipart/form-data">
+                    @if (!string.IsNullOrEmpty(ViewBag?.ErrorMessage))
+                    {
+                        @ViewBag.ErrorMessage
+                    }
+
                     <div class="form-group mb-4">
                         <label asp-for="FirstName">First Name</label>
                         <input asp-for="FirstName" type="text" class="form-control" placeholder="Your first name">
