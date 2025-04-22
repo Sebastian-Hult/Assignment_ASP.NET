@@ -1,47 +1,56 @@
-﻿using Data.Entities;
+﻿using System.Diagnostics;
+using Business.Dtos;
+using Business.Factories;
+using Business.Models;
+using Data.Entities;
 using Data.Repositories;
 
 namespace Business.Services;
 
 public interface IProjectService
 {
-    Task<ProjectEntity> CreateProjectAsync();
-    Task<IEnumerable<ProjectEntity>> GetProjectAsync(string id);
-    Task<IEnumerable<ProjectEntity>> GetProjectsAsync();
+    Task<Project> CreateProjectAsync(AddProjectForm form);
+    Task<Project> GetProjectAsync(string id);
+    Task<IEnumerable<Project>> GetProjectsAsync();
 }
 
 public class ProjectService(IProjectRepository projectRepository) : IProjectService
 {
     private readonly IProjectRepository _projectRepository = projectRepository;
 
-    public async Task<ProjectEntity> CreateProjectAsync()
+    public async Task<Project> CreateProjectAsync(AddProjectForm form)
     {
-        var project = new ProjectEntity
+        var entity = await _projectRepository.GetAsync(x => x.ProjectName == form.ProjectName);
+        if (entity != null)
         {
-            ProjectName = "New Project",
-            Description = "Project Description",
-            StartDate = DateTime.Now,
-            EndDate = DateTime.Now.AddMonths(1),
-            Budget = 10000,
-            ClientId = "ClientId",
-            UserId = "UserId",
-            StatusId = 1
-        };
-        await _projectRepository.AddAsync(project);
-        //return await _projectRepository.GetAllAsync();
+            Debug.WriteLine("Project already exists");
+            return ProjectFactory.CreateProject(entity);
+        }
+
+        entity = await _projectRepository.AddAsync(ProjectFactory.CreateProject(form));
+
+        return ProjectFactory.CreateProject(entity);
     }
 
-    public async Task<IEnumerable<ProjectEntity>> GetProjectsAsync()
+    public async Task<IEnumerable<Project>> GetProjectsAsync()
     {
-        var projects = await _projectRepository.GetAllAsync();
-        return projects;
+        var entities = await _projectRepository.GetAllAsync();
+        var projects = entities.Select(ProjectFactory.CreateProject);
+        return projects ?? [];
     }
 
-    public async Task<IEnumerable<ProjectEntity>> GetProjectAsync(string id)
+    public async Task<Project> GetProjectAsync(string id)
     {
-        var project = await _projectRepository.GetAsync(x => x.Id == id);
-        // factory
+        var entity = await _projectRepository.GetAsync(x => x.Id == id);
+        var project = ProjectFactory.CreateProject(entity!);
 
-        return project;
+        return project ?? null!;
     }
+
+    //public async Task<Project?> UpdateProjectAsync(EditProjectForm form)
+    //{
+    //    var entity = await _projectRepository.UpdateAsync(x => x.ProjectName == form.ProjectName, ProjectFactory.UpdateProject(form));
+    //    var project = ProjectFactory.CreateProject(entity);
+    //    return project ?? null!;
+    //}
 }

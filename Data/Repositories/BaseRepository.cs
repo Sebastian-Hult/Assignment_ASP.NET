@@ -7,40 +7,34 @@ namespace Data.Repositories;
 
 public interface IBaseRepository<TEntity> where TEntity : class
 {
-    Task<bool> AddAsync(TEntity entity);
+    Task<TEntity> AddAsync(TEntity entity);
     Task<bool> DeleteAsync(TEntity entity);
     Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> findBy);
     Task<IEnumerable<TEntity>> GetAllAsync();
-    Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> findBy);
+    Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> findBy);
     Task<bool> UpdateAsync(TEntity entity);
 }
 
-public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+public abstract class BaseRepository<TEntity>(DataContext context) : IBaseRepository<TEntity> where TEntity : class
 {
-    protected readonly DataContext _context;
-    protected readonly DbSet<TEntity> _dbSet;
+    protected readonly DataContext _context = context;
+    protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
-    protected BaseRepository(DataContext context)
-    {
-        _context = context;
-        _dbSet = context.Set<TEntity>();
-    }
-
-    public virtual async Task<bool> AddAsync(TEntity entity)
+    public virtual async Task<TEntity> AddAsync(TEntity entity)
     {
         if (entity == null)
-            return false;
+            return null!;
 
         try
         {
             _dbSet.Add(entity);
             await _context.SaveChangesAsync();
-            return true;
+            return entity;
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return false;
+            return null!;
         }
     }
 
@@ -50,7 +44,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
         return entities;
     }
 
-    public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> findBy)
+    public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> findBy)
     {
         var entity = await _dbSet.FirstOrDefaultAsync(findBy);
         return entity ?? null!;

@@ -65,10 +65,16 @@ public class AuthController(IAuthService authService) : Controller
 
             var result = await _authService.SignUpAsync(signUpForm);
             if (result)
-                return LocalRedirect("~/");
+                return RedirectToAction("SignIn", "Auth");
         }
 
         ViewBag.ErrorMessage = "";
         return View(model);
+    }
+
+    public new async Task<IActionResult> SignOut()
+    {
+        await _authService.SignOutAsync();
+        return RedirectToAction("SignIn", "Auth");
     }
 }

@@ -20,7 +20,7 @@ builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 
 builder.Services.ConfigureApplicationCookie(x =>
 {
-    x.LoginPath = "/auth/signup";
+    x.LoginPath = "/auth/signin";
     x.AccessDeniedPath = "/auth/denied";
     x.Cookie.HttpOnly = true;
     x.Cookie.IsEssential = true;
@@ -53,7 +53,7 @@ app.MapStaticAssets();
 app.UseRewriter(new RewriteOptions().AddRedirect("^$", "/admin/projects"));
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Admin}/{action=Index}/{id?}")
+    pattern: "{controller=Admin}/{action=Projects}/{id?}")
     .WithStaticAssets();
 
 

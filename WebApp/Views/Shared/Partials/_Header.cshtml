@@ -1,4 +1,5 @@
-﻿<div></div>
+﻿
+<div></div>
 <div class="top-content">
     <div type="button" data-option="true" data-target="#userSettings" class="settings-icon">
         <i class="fa-duotone fa-solid fa-gear" style="--fa-primary-opacity: 0.4; --fa-secondary-opacity: 1;"></i>
@@ -8,11 +9,13 @@
             <div class="img-container">
                 <img src="~/images/Logo-icon.svg" alt="Profile">
             </div>
-            <div>Tommy Mattin-Lassei</div>
+            <div>
+                Hej
+            </div>
         </div>
         <div class="setting logout">
             <i class="fa-duotone fa-solid fa-arrow-right-from-bracket"></i>
-            <p>Logout</p>
+            <a class="logout" asp-action="SignOut" asp-controller="Auth">Logout</a>
         </div>
     </div>
     <div class="img-container">
