@@ -7,10 +7,16 @@
     <div id="userSettings" class="surface-md settings">
         <div type="button" data-setting="true" setting-target="#Users" class="setting profile">
             <div class="img-container">
-                <img src="~/images/Logo-icon.svg" alt="Profile">
+                <img src="~/images/Avatar-image.svg" alt="Profile">
             </div>
             <div>
-                Hej
+                @{
+                    var user = await userManager.GetUserAsync(User);
+                }
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <span class="name">@user.FirstName @user.LastName</span>
+                }
             </div>
         </div>
         <div class="setting logout">
@@ -19,6 +25,6 @@
         </div>
     </div>
     <div class="img-container">
-        <img src="~/images/Logo-icon.svg" alt="Profile">
+        <img src="~/images/Avatar-image.svg" alt="Profile">
     </div>
 </div>

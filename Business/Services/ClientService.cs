@@ -1,5 +1,5 @@
 ﻿using Data.Entities;
-using Data.Repositories;
+using Data.Interfaces;
 
 namespace Business.Services;
 

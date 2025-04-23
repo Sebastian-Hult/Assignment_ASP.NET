@@ -1,5 +1,4 @@
-﻿@using Data.Entities
-@model EditProjectForm
+﻿@model EditProjectViewModel
 
 <div id="editProjectModal" class="modal">
     <div class="modal-content">
@@ -9,7 +8,7 @@
             <button type="button" class="btn-close" data-close="true"></button>
         </div>
 
-        <form novalidate method="" asp-action="" asp-controller="">
+        <form novalidate method="post" asp-action="EditProject" asp-controller="Project">
 
             <div class="image-previewer square">
                 <img src="" class="image-preview" />
@@ -17,74 +16,78 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="ProjectName">Project Name</label>
+                <label asp-for="Form.ProjectName">Project Name</label>
                 <div class="field-group">
-                    <input asp-for="ProjectName" class="input-validation-error" type="text" placeholder="Project name" />
-                    <span asp-validation-for="ProjectName" class="field-validation-error"></span>
+                    <input asp-for="Form.ProjectName" class="input-validation-error" type="text" placeholder="Project name" />
+                    <span asp-validation-for="Form.ProjectName" class="field-validation-error"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="ClientName">Client</label>
+                <label asp-for="Form.ClientName">Client</label>
                 <div class="field-group">
-                    <select name="client" id="client">
-                        <option value="choose">-- Choose a Client --</option>
-                        @* @foreach (var clients in ClientEntity) *@
-                        @* { *@
-                        @*     <option value="clients">@Model.ClientName</option> *@
-                        @* } *@
+                    <select asp-for="Form.ClientId" name="client" id="client">
+                        <option value="">-- Choose a Client --</option>
+                        @foreach (var client in Model.Clients) 
+                        { 
+                            <option value="@client.Id" selected="@(client.Id == Model.Form.ClientId ? "selected" : null)">
+                                @client.ClientName
+                            </option> 
+                        } 
 
                     </select>
-                    <span asp-validation-for="ClientName" class="field-validation-error">Required</span>
+                    <span asp-validation-for="Form.ClientName" class="field-validation-error">Required</span>
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="Description">Description</label>
+                <label asp-for="Form.Description">Description</label>
                 <div class="field-group">
-                    <input asp-for="Description" class="input-validation-error" type="text" placeholder="Type something" />
-                    <span asp-validation-for="Description" class="field-validation-error"></span>
+                    <input asp-for="Form.Description" class="input-validation-error" type="text" placeholder="Type something" />
+                    <span asp-validation-for="Form.Description" class="field-validation-error"></span>
                 </div>
             </div>
             <div class="form-group-date">
                 <div>
-                    <label asp-for="StartDate">Start Date</label>
+                    <label asp-for="Form.StartDate">Start Date</label>
                     <div class="field-group">
-                        <input asp-for="StartDate" class="input-validation-error" type="date" placeholder="Enter start date" />
-                        <span asp-validation-for="StartDate" class="field-validation-error"></span>
+                        <input asp-for="Form.StartDate" class="input-validation-error" type="date" placeholder="Enter start date" />
+                        <span asp-validation-for="Form.StartDate" class="field-validation-error"></span>
                     </div>
                 </div>
                 <div>
-                    <label asp-for="EndDate">End Date</label>
+                    <label asp-for="Form.EndDate">End Date</label>
                     <div class="field-group">
-                        <input asp-for="EndDate" class="input-validation-error" type="date" placeholder="Enter end date" />
-                        <span asp-validation-for="EndDate" class="field-validation-error"></span>
+                        <input asp-for="Form.EndDate" class="input-validation-error" type="date" placeholder="Enter end date" />
+                        <span asp-validation-for="Form.EndDate" class="field-validation-error"></span>
                     </div>
                 </div>
             </div>
-            <!-- <div class="form-group">
-
-            </div> -->
             <div class="form-group">
-                <label asp-for="Budget">Budget</label>
+                <label asp-for="Form.Budget">Budget</label>
                 <div class="field-group">
-                    <input asp-for="Budget" class="input-validation-error" type="text" placeholder="0" />
-                    <span asp-validation-for="Budget" class="field-validation-error">Required</span>
+                    <input asp-for="Form.Budget" class="input-validation-error" type="text" placeholder="0" />
+                    <span asp-validation-for="Form.Budget" class="field-validation-error">Required</span>
                 </div>
             </div>
-            @* <div class="form-group"> *@
-            @*     <label asp-for="Status">Status</label> *@
-            @*     <div class="field-group"> *@
-            @*         <select name="status" id="status"> *@
-            @*             <option value="choose">-- Choose a status --</option> *@
-            @*             <option value="started">Started</option> *@
-            @*             <option value="completed">Completed</option> *@
-            @*         </select> *@
-            @*         <span asp-validation-for="Status" class="field-validation-error">Required</span> *@
-            @*     </div> *@
-            @* </div> *@
+            <div class="form-group">
+                <label asp-for="Form.Status">Status</label>
+                <div class="field-group">
+                    <select asp-for="Form.StatusId" name="status" id="status">
+                        <option value="">-- Choose a Status --</option>
+                        @foreach (var status in Model.Statuses)
+                        {
+                            <option value="@status.Id" selected="@(status.Id == Model.Form.StatusId ? "selected" : null)">
+                                @status.StatusName
+                            </option>
+                        }
+
+                    </select>
+                    <span asp-validation-for="Form.Status" class="field-validation-error">Required</span>
+                </div>
+            </div>
 
             <button class="btn btn-blue btn-submit">Save</button>
 
         </form>
-
     </div>
 </div>
+

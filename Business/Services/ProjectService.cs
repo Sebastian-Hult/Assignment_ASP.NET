@@ -9,7 +9,7 @@ namespace Business.Services;
 
 public interface IProjectService
 {
-    Task<Project> CreateProjectAsync(AddProjectForm form);
+    Task<ProjectEntity> CreateProjectAsync(AddProjectForm form);
     Task<Project> GetProjectAsync(string id);
     Task<IEnumerable<Project>> GetProjectsAsync();
 }
@@ -18,18 +18,18 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 {
     private readonly IProjectRepository _projectRepository = projectRepository;
 
-    public async Task<Project> CreateProjectAsync(AddProjectForm form)
+    public async Task<ProjectEntity> CreateProjectAsync(AddProjectForm form)
     {
-        var entity = await _projectRepository.GetAsync(x => x.ProjectName == form.ProjectName);
-        if (entity != null)
+        var existing = await _projectRepository.GetAsync(x => x.ProjectName == form.ProjectName);
+        if (existing != null)
         {
             Debug.WriteLine("Project already exists");
-            return ProjectFactory.CreateProject(entity);
+            return existing;
         }
 
-        entity = await _projectRepository.AddAsync(ProjectFactory.CreateProject(form));
+        var entity = await _projectRepository.AddAsync(ProjectFactory.CreateProject(form));
 
-        return ProjectFactory.CreateProject(entity);
+        return entity;
     }
 
     public async Task<IEnumerable<Project>> GetProjectsAsync()

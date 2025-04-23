@@ -1,11 +1,8 @@
 ﻿using Data.Contexts;
 using Data.Entities;
+using Data.Interfaces;
 
 namespace Data.Repositories;
-
-public interface IStatusRepository : IBaseRepository<StatusEntity>
-{
-}
 
 public class StatusRepository(DataContext context) : BaseRepository<StatusEntity>(context), IStatusRepository
 {
