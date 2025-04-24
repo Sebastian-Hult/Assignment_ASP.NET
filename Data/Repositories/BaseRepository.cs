@@ -12,7 +12,7 @@ public interface IBaseRepository<TEntity> where TEntity : class
     Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> findBy);
     Task<IEnumerable<TEntity>> GetAllAsync();
     Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> findBy);
-    Task<bool> UpdateAsync(TEntity entity);
+    Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity updatedEntity);
 }
 
 public abstract class BaseRepository<TEntity>(DataContext context) : IBaseRepository<TEntity> where TEntity : class
@@ -56,21 +56,25 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         return exists;
     }
 
-    public virtual async Task<bool> UpdateAsync(TEntity entity)
+    public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity updatedEntity)
     {
-        if (entity == null)
-            return false;
+        if (updatedEntity == null)
+            return null!;
 
         try
         {
-            _dbSet.Update(entity);
+            var existingEntity = await _dbSet.FirstOrDefaultAsync(expression);
+            if (existingEntity == null)
+                return null!;
+
+            _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
             await _context.SaveChangesAsync();
-            return true;
+            return existingEntity;
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return false;
+            return null!;
         }
     }
 

@@ -33,26 +33,34 @@ public class ProjectController(IProjectService projectService, IClientRepository
     [HttpPost]
     public async Task<IActionResult> AddProject(AddProjectViewModel model)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var addProjectForm = new AddProjectForm
-            {
-                ProjectImage = model.Form.ProjectImage,
-                ProjectName = model.Form.ProjectName,
-                ClientName = model.Form.ClientName,
-                Description = model.Form.Description,
-                StartDate = model.Form.StartDate,
-                EndDate = model.Form.EndDate,
-                Budget = model.Form.Budget,
-            };
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToList()
+                    );
 
-            var result = await _projectService.CreateProjectAsync(addProjectForm);
-            if (result != null)
-                return RedirectToAction("Projects", "Admin");
+            return BadRequest(new { success = false, errors });
         }
+        
+        
+        var addProjectForm = new AddProjectForm
+        {
+            ProjectImage = model.Form.ProjectImage,
+            ProjectName = model.Form.ProjectName,
+            ClientName = model.Form.ClientName,
+            Description = model.Form.Description,
+            StartDate = model.Form.StartDate,
+            EndDate = model.Form.EndDate,
+            Budget = model.Form.Budget,
+        };
 
-        ViewBag.ErrorMessage = "";
-
+        var result = await _projectService.CreateProjectAsync(addProjectForm);
+        if (result != null)
+            return RedirectToAction("Projects", "Admin");
+        
         return View(model);
     }
 

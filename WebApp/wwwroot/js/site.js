@@ -69,7 +69,63 @@
                 processImage(file, imagePreview, previewer, previewSize)
         })
     })
+
+    // handle submit forms
+    const forms = document.querySelectorAll('form')
+    forms.forEach(form => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            clearErrorMessages(form)
+
+            const formData = new FormData(form)
+
+            try {
+                const res = await fetch(form.action, {
+                    method: 'post',
+                    body: formData
+                })
+
+                if (res.status === 400) {
+                    const data = await res.json()
+
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(key => {
+                            addErrorMessage(key, data.errors[key].join('\n'))
+                        })
+                    }
+                }
+            }
+            catch {
+                console.log('Failed to submit form')
+            }
+        })
+    })
+
 })
+
+function clearErrorMessages(form) {
+    form.querySelectorAll('[data-val="true"]').foreach(input => {
+        input.classList.remove('input-validation-error')
+    })
+    form.querySelectorAll('[data-valmsg-for]').foreach(span => {
+        span.innerText = ''
+        span.classList.remove('field-validation-error')
+    })
+}
+
+function addErrorMessage(key, errorMessage) {
+    const input = form.querySelector(`[name="${key}"]`)
+    if (input) {
+        input.classList.add('input-validation-error')
+    }
+
+    const errorSpan = form.querySelector(`[data-valmsg-for="${key}"]`)
+    if (span) {
+        errorSpan.innerText = errorMessage
+        errorSpan.classList.add('field-validation-error')
+    }
+}
 
 async function loadImage(file) {
     return new Promise((resolve, reject) => {

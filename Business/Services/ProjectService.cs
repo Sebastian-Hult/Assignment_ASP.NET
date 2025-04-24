@@ -10,8 +10,10 @@ namespace Business.Services;
 public interface IProjectService
 {
     Task<ProjectEntity> CreateProjectAsync(AddProjectForm form);
+    Task<bool> DeleteProjectAsync(string id);
     Task<Project> GetProjectAsync(string id);
     Task<IEnumerable<Project>> GetProjectsAsync();
+    Task<Project> UpdateProjectAsync(EditProjectForm form);
 }
 
 public class ProjectService(IProjectRepository projectRepository) : IProjectService
@@ -47,10 +49,21 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         return project ?? null!;
     }
 
-    //public async Task<Project?> UpdateProjectAsync(EditProjectForm form)
-    //{
-    //    var entity = await _projectRepository.UpdateAsync(x => x.ProjectName == form.ProjectName, ProjectFactory.UpdateProject(form));
-    //    var project = ProjectFactory.CreateProject(entity);
-    //    return project ?? null!;
-    //}
+    public async Task<Project> UpdateProjectAsync(EditProjectForm form)
+    {
+        var entity = await _projectRepository.UpdateAsync(x => x.ProjectName == form.ProjectName, ProjectFactory.UpdateProject(form));
+        var project = ProjectFactory.CreateProject(entity);
+        return project ?? null!;
+    }
+
+    public async Task<bool> DeleteProjectAsync(string id)
+    {
+        var entity = await _projectRepository.GetAsync(x => x.Id == id);
+
+        if (entity == null)
+            return false;
+
+        var result = await _projectRepository.DeleteAsync(entity);
+        return result;
+    }
 }
