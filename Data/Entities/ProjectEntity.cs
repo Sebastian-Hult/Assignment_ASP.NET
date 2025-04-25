@@ -7,7 +7,7 @@ public class ProjectEntity
 {
     [Key]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string? Image { get; set; }
+    public string? Image { get; set; }  // "~/images/project/project1.png"
     public string ProjectName { get; set; } = null!;
     public string? Description { get; set; }
 

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("LocalDBConnection")));
@@ -51,10 +53,13 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-app.UseRewriter(new RewriteOptions().AddRedirect("^$", "/admin/projects"));
+app.UseRewriter(new RewriteOptions().AddRedirect("^$", "/project/index"));
+
+
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Admin}/{action=Projects}/{id?}")
+    pattern: "{controller=Project}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

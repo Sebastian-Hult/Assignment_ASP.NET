@@ -1,0 +1,47 @@
+﻿@model ProjectsViewModel
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<partial name="Partials/Components/_AddProjectModal" model="Model.AddProject" />
+
+<div class="main-top">
+    <div class="main-top-content">
+        <h1 class="main-top-title">@ViewData["Title"]</h1>
+        <button type="button" data-modal="true" data-target="#addProjectModal" class="btn btn-blue"><i class="fa-solid fa-plus-large plus"></i> Add Project</button>
+    </div>
+    <div class="main-top-links">
+        <a href="#">ALL [@Model.Projects.Count()]</a>
+        <a href="#">STARTED [@Model.Projects.ToList().Count(x => x.StatusId == 1)]</a>
+        <a href="#">COMPLETED [@Model.Projects.ToList().Count(x => x.StatusId == 2)]</a>
+    </div>
+</div>
+
+<section>
+    @if (!Model.Projects.Any())
+    {
+        <div class="center-content empty-state mt-1">
+            <div class="text-center">
+                <h2 class="empty-state-title">No Projects</h2>
+                <p class="empty-state-desc">You don't have any projects yet. Click the "Add Project" button above to create a project.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="main-bottom">
+            <div class="project-cards">
+                @foreach (var project in Model.Projects)
+                {
+                    <partial name="Partials/Components/_ProjectCard" model="project" />
+                }
+
+            </div>
+        </div>
+
+    }
+
+</section>
+
+<partial name="Partials/Components/_EditProjectModal" model="Model.EditProject" />

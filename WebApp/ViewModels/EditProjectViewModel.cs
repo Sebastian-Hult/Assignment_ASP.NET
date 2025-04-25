@@ -7,7 +7,7 @@ public class EditProjectViewModel
 {
     public EditProjectForm Form { get; set; } = new();
 
-    public List<ClientEntity> Clients { get; set; } = new();
+    public IEnumerable<ClientEntity> Clients { get; set; } = [];
 
-    public List<StatusEntity> Statuses { get; set; } = new();
+    public IEnumerable<StatusEntity> Statuses { get; set; } = [];
 }

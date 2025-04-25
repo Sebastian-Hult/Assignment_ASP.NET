@@ -16,7 +16,7 @@ public static class ProjectFactory
         Budget = form.Budget,
         ClientId = form.ClientId,
         UserId = form.UserId,
-        StatusId = form.StatusId,
+        StatusId = 1,
     };
 
     public static Project CreateProject(ProjectEntity entity) => new()
