@@ -86,12 +86,28 @@
                     body: formData
                 })
 
-                if (res.status === 400) {
+                if (res.ok) {
+                    const modal = form.closest('.modal')
+                    if (modal)
+                        modal.style.display = 'none';
+
+                    window.location.reload()
+                }
+                else if (res.status === 400) {
                     const data = await res.json()
 
                     if (data.errors) {
                         Object.keys(data.errors).forEach(key => {
-                            addErrorMessage(key, data.errors[key].join('\n'))
+                            let input = form.querySelector(`[name="${key}"]`)
+                            if (input) {
+                                input.classList.add('input-validation-error')
+                            }
+
+                            let errorSpan = form.querySelector(`[data-valmsg-for="${key}"]`)
+                            if (errorSpan) {
+                                errorSpan.innerText = data.errors[key].join('\n')
+                                errorSpan.classList.add('field-validation-error')
+                            }
                         })
                     }
                 }

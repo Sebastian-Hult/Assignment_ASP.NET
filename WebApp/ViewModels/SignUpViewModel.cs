@@ -15,11 +15,13 @@ public class SignUpViewModel
     public string LastName { get; set; } = null!;
 
     [Display(Name = "Email", Prompt = "Enter email address")]
+    [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email")]
     [DataType(DataType.EmailAddress)]
     [Required(ErrorMessage = "Required")]
     public string Email { get; set; } = null!;
 
     [Display(Name = "Password", Prompt = "Enter password")]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$", ErrorMessage = "Invalid password")]
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Required")]
     public string Password { get; set; } = null!;
@@ -30,6 +32,7 @@ public class SignUpViewModel
     [Required(ErrorMessage = "Required")]
     public string ConfirmPassword { get; set; } = null!;
 
-    [Range(typeof(bool), "true", "true")]
+    [Display(Name = "Terms & Conditions", Prompt = "I accept the terms & conditions.")]
+    [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms and conditions to create an account and use this website.")]
     public bool TermsAndConditions { get; set; }
 }

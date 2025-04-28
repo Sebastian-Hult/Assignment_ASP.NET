@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label asp-for="Form.ClientName">Client</label>
                 <div class="field-group">
-                    <select asp-for="Form.ClientId" name="client" id="client">
+                    <select asp-for="Form.ClientName" name="client" id="client">
                         <option value="">-- Choose a Client --</option>
                         @foreach (var client in Model.Clients) 
                         { 

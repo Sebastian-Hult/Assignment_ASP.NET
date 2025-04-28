@@ -1,4 +1,5 @@
-﻿using Business.Dtos;
+﻿using System.Security.Claims;
+using Business.Dtos;
 using Data.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,6 +7,7 @@ namespace Business.Services;
 
 public interface IAuthService
 {
+    Task<string> GetUserIdAsync(ClaimsPrincipal user);
     Task<bool> LoginAsync(UserLoginForm loginForm);
     Task<bool> SignOutAsync();
     Task<bool> SignUpAsync(UserSignUpForm signupForm);
@@ -48,5 +50,11 @@ public class AuthService(SignInManager<UserEntity> signInManager, UserManager<Us
     {
         await _signInManager.SignOutAsync();
         return true;
+    }
+
+    public async Task<string> GetUserIdAsync(ClaimsPrincipal user)
+    {
+        var userEntity = await _userManager.GetUserAsync(user);
+        return userEntity?.Id ?? null!;
     }
 }

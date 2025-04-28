@@ -11,61 +11,57 @@
             <form novalidate method="post" asp-action="AddProject" asp-controller="Project">
 
                 <div class="image-previewer square">
-                    <img src="~/" class="image-preview" />
-                    <input accept="image/*" class="d-none" />
+                    <img src="" class="image-preview" />
+                    <input asp-for="Form.ProjectImage" accept="image/*" class="d-none" />
                 </div>
 
                 <div class="form-group">
-                <label asp-for="Form.ProjectName">Project Name</label>
+                <label asp-for="Form.ProjectName"></label>
                     <div class="field-group">
-                    <input asp-for="Form.ProjectName" class="input-validation-error" type="text" placeholder="Project name" />
-                    <span asp-validation-for="Form.ProjectName" class="field-validation-error">Required</span>
+                        <input asp-for="Form.ProjectName" />
+                        <span asp-validation-for="Form.ProjectName"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Form.ClientName">Client</label>
+                    <label asp-for="Form.ClientName"></label>
                     <div class="field-group">
                         <select asp-for="Form.ClientId" name="client" id="client">
                             <option value="">-- Choose a Client --</option>
                             @foreach (var client in Model.Clients)
                             {
-                                <option value="@client.Id" selected="@(client.Id == Model.Form.ClientId ? "selected" : null)">
+                                <option value="@client.Id">
                                     @client.ClientName
                                 </option>
                             }
-
                         </select>
-                        <span asp-validation-for="Form.ClientName" class="field-validation-error">Required</span>
+                    <span asp-validation-for="Form.ClientName"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                <label asp-for="Form.Description">Description</label>
+                <label asp-for="Form.Description"></label>
                     <div class="field-group">
-                    <input asp-for="Form.Description" class="input-validation-error" type="text" placeholder="Type something" />
-                    <span asp-validation-for="Form.Description" class="field-validation-error">Required</span>
+                    <input asp-for="Form.Description" type="text" />
                     </div>
                 </div>
                 <div class="form-group-date">
                     <div>
-                    <label asp-for="Form.StartDate">Start Date</label>
+                    <label asp-for="Form.StartDate"></label>
                         <div class="field-group">
-                        <input asp-for="Form.StartDate" class="" type="date" placeholder="Enter start date" />
-                        <span asp-validation-for="Form.StartDate" class="">Required</span>
+                        <input asp-for="Form.StartDate" />
+                        <span asp-validation-for="Form.StartDate"></span>
                         </div>
                     </div>
                     <div>
-                    <label asp-for="Form.EndDate">End Date</label>
+                    <label asp-for="Form.EndDate"></label>
                         <div class="field-group">
-                        <input asp-for="Form.EndDate" class="" type="date" placeholder="Enter end date" />
-                        <span asp-validation-for="Form.EndDate" class="">Required</span>
+                        <input asp-for="Form.EndDate" />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                <label asp-for="Form.Budget">Budget</label>
+                <label asp-for="Form.Budget"></label>
                     <div class="field-group">
-                    <input asp-for="Form.Budget" class="input-validation-error" type="text" placeholder="0" />
-                    <span asp-validation-for="Form.Budget" class="field-validation-error">Required</span>
+                    <input asp-for="Form.Budget" />
                     </div>
                 </div>
 

@@ -13,7 +13,7 @@ public class AddProjectForm
 
     [DataType(DataType.Text)]
     [Display(Name = "Client", Prompt = "Choose a client")]
-    public string? ClientName { get; set; }
+    public string ClientName { get; set; } = null!;
 
     [DataType(DataType.MultilineText)]
     [Display(Name = "Description", Prompt = "Enter a description")]
