@@ -4,11 +4,13 @@ using Business.Services;
 using Data.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.ViewModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApp.Controllers;
 
+//[Authorize]
 public class ProjectController(IProjectService projectService, IClientRepository clientRepository, IStatusRepository statusRepository, IAuthService authService) : Controller
 {
     private readonly IProjectService _projectService = projectService;
@@ -16,8 +18,21 @@ public class ProjectController(IProjectService projectService, IClientRepository
     private readonly IStatusRepository _statusRepository = statusRepository;
     private readonly IAuthService _authService = authService;
 
+    [Authorize]
     public async Task<IActionResult> Index()
     {
+        var clients = await _clientRepository.GetAllAsync();
+
+        var selectListItems = clients
+            .Select(x => new SelectListItem
+            {
+                Text = x.ClientName,
+                Value = x.Id.ToString()
+            })
+            .ToList();
+
+        ViewBag.Clients = selectListItems;
+
         var pvm = new ProjectsViewModel
         {
             Projects = await _projectService.GetProjectsAsync(),
@@ -31,6 +46,12 @@ public class ProjectController(IProjectService projectService, IClientRepository
                 Statuses = await _statusRepository.GetAllAsync(),
             }
         };
+
+        var userId = await _authService.GetUserIdAsync(User);
+
+        pvm.AddProject.Form.UserId = userId;
+        pvm.AddProject.Form.StatusId = 1;
+
         return View(pvm);
     }
 
@@ -49,27 +70,23 @@ public class ProjectController(IProjectService projectService, IClientRepository
             return BadRequest(new { success = false, errors });
         }
 
-        var client = await _clientRepository.GetAsync(x => x.ClientName == model.Form.ClientName);
-        var userId = await _authService.GetUserIdAsync(User);
-
+        var client = await _clientRepository.GetAsync(x => x.Id == model.Form.ClientId);
+        
         if (client == null)
             return View(model);
 
-        if (userId == null)
-            return View(model);
+
 
         var addProjectForm = new AddProjectForm
         {
             ProjectImage = model.Form.ProjectImage,
             ProjectName = model.Form.ProjectName,
-            ClientName = model.Form.ClientName,
+            ClientName = client.ClientName,
             Description = model.Form.Description,
             StartDate = model.Form.StartDate,
             EndDate = model.Form.EndDate,
             Budget = model.Form.Budget,
-            ClientId = client.Id,
-            UserId = userId,
-            StatusId = 1,
+            ClientId = model.Form.ClientId,
         };
 
         var result = await _projectService.CreateProjectAsync(addProjectForm);

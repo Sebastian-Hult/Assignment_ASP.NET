@@ -10,6 +10,9 @@
             <div class="cetner-content">
                 <h1 class="mb-4 text-center">@ViewData["Title"]</h1>
                 <form asp-controller="Auth" asp-action="SignIn" method="post" novalidate enctype="multipart/form-data">
+
+                    @* <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" /> *@
+
                     <div class="form-group mb-4">
                         <label asp-for="Email"></label>
                         <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email address" />

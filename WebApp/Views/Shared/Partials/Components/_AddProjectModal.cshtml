@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-close="true"></button>
             </div>
 
-            <form novalidate method="post" asp-action="AddProject" asp-controller="Project">
+            <form novalidate method="post" enctype="multipart/form-data" asp-action="AddProject" asp-controller="Project">
 
                 <div class="image-previewer square">
                     <img src="" class="image-preview" />
@@ -18,25 +18,36 @@
                 <div class="form-group">
                 <label asp-for="Form.ProjectName"></label>
                     <div class="field-group">
-                        <input asp-for="Form.ProjectName" />
-                        <span asp-validation-for="Form.ProjectName"></span>
+                    <input asp-for="Form.ProjectName" />
+                    <span asp-validation-for="Form.ProjectName"></span>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="Form.ClientName"></label>
                     <div class="field-group">
-                        <select asp-for="Form.ClientId" name="client" id="client">
+                        <select asp-for="Form.ClientId" asp-items="ViewBag.Clients">
                             <option value="">-- Choose a Client --</option>
-                            @foreach (var client in Model.Clients)
-                            {
-                                <option value="@client.Id">
-                                    @client.ClientName
-                                </option>
-                            }
                         </select>
-                    <span asp-validation-for="Form.ClientName"></span>
+                        <span asp-validation-for="Form.ClientName"></span>
                     </div>
                 </div>
+
+@*                 <div class="form-group">
+                <label asp-for="Form.ClientName"></label>
+                    <div class="field-group">
+                    <select asp-for="Form.ClientId" name="client" id="client">
+                        <option value="">-- Choose a Client --</option>
+                        @foreach (var client in ViewBag.Clients)
+                        {
+                            <option value="@client.Id">
+                                @client.ClientName
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="Form.ClientName"></span>
+                    </div>
+                </div> *@
                 <div class="form-group">
                 <label asp-for="Form.Description"></label>
                     <div class="field-group">
@@ -64,6 +75,10 @@
                     <input asp-for="Form.Budget" />
                     </div>
                 </div>
+
+                <input type="hidden" name="UserId" value="@Model.Form.UserId" />
+
+                <input type="hidden" name="StatusId" value="@Model.Form.StatusId" />
 
                 <button type="submit" class="btn btn-blue btn-submit">Create</button>
 

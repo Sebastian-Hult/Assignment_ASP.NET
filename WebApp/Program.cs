@@ -55,8 +55,6 @@ app.MapStaticAssets();
 
 app.UseRewriter(new RewriteOptions().AddRedirect("^$", "/project/index"));
 
-
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Project}/{action=Index}/{id?}")

@@ -9,19 +9,19 @@ public class AuthController(IAuthService authService) : Controller
 {
     private readonly IAuthService _authService = authService;
 
-    public IActionResult SignIn(string returnUrl = "~/")
+    public IActionResult SignIn()
     {
-        ViewBag.ErrorMessage = "";
-        ViewBag.ReturnUrl = returnUrl;
+        //ViewBag.ErrorMessage = "";
+        //ViewBag.ReturnUrl = returnUrl;
 
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignIn(SignInViewModel model, string returnUrl = "~/")
-    {
+    public async Task<IActionResult> SignIn(SignInViewModel model/*, string returnUrl = "/project/index"*/)
+     {
         ViewBag.ErrorMessage = "";
-        ViewBag.ReturnUrl = returnUrl;
+        //ViewBag.ReturnUrl = returnUrl;
 
         if (ModelState.IsValid)
         {
@@ -33,7 +33,10 @@ public class AuthController(IAuthService authService) : Controller
 
             var result = await _authService.LoginAsync(singInForm);
             if (result)
-                return LocalRedirect(returnUrl);
+            {
+                //return LocalRedirect(returnUrl);
+                return RedirectToAction("Index", "Project");
+            }
         }
 
         ViewBag.ErrorMessage = "Invalid email or password.";

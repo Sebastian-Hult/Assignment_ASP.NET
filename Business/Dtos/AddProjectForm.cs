@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Business.Dtos;
 
@@ -35,9 +36,9 @@ public class AddProjectForm
     [Required]
     public string ClientId { get; set; } = null!;
 
-    [Required]
-    public string UserId { get; set; } = null!;
+    
+    public string? UserId { get; set; }
 
-    [Required]
-    public int StatusId { get; set; }
+    
+    public int? StatusId { get; set; }
 }

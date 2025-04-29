@@ -9,7 +9,7 @@ public interface IAuthService
 {
     Task<string> GetUserIdAsync(ClaimsPrincipal user);
     Task<bool> LoginAsync(UserLoginForm loginForm);
-    Task<bool> SignOutAsync();
+    Task SignOutAsync();
     Task<bool> SignUpAsync(UserSignUpForm signupForm);
 }
 
@@ -46,10 +46,9 @@ public class AuthService(SignInManager<UserEntity> signInManager, UserManager<Us
         return false;
     }
 
-    public async Task<bool> SignOutAsync()
+    public async Task SignOutAsync()
     {
         await _signInManager.SignOutAsync();
-        return true;
     }
 
     public async Task<string> GetUserIdAsync(ClaimsPrincipal user)
