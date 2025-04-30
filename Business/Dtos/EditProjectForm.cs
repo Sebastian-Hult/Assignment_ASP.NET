@@ -7,9 +7,9 @@ public class EditProjectForm
     public string? ProjectImage { get; set; }
 
     [DataType(DataType.Text)]
-    [Required(ErrorMessage = "Project name is required")]
+    //[Required(ErrorMessage = "Project name is required")]
     [Display(Name = "Project Name", Prompt = "Enter project name")]
-    public string ProjectName { get; set; } = null!;
+    public string? ProjectName { get; set; }
 
     [DataType(DataType.Text)]
     [Display(Name = "Client", Prompt = "Choose a client")]
@@ -20,7 +20,7 @@ public class EditProjectForm
     public string? Description { get; set; }
 
     [DataType(DataType.Date)]
-    [Required(ErrorMessage = "Start date is required")]
+    //[Required(ErrorMessage = "Start date is required")]
     [Display(Name = "Start Date", Prompt = "Enter start date")]
     public DateTime StartDate { get; set; }
 
@@ -36,12 +36,12 @@ public class EditProjectForm
     [Display(Name = "Status", Prompt = "Choose a status")]
     public string? Status { get; set; }
 
-    [Required]
-    public string ClientId { get; set; } = null!;
+    
+    public string? ClientId { get; set; }
 
-    [Required]
-    public string UserId { get; set; } = null!;
+    
+    public string? UserId { get; set; }
 
-    [Required]
+    
     public int StatusId { get; set; }
 }

@@ -14,7 +14,7 @@ public class AddProjectForm
 
     [DataType(DataType.Text)]
     [Display(Name = "Client", Prompt = "Choose a client")]
-    public string ClientName { get; set; } = null!;
+    public string? ClientName { get; set; }
 
     [DataType(DataType.MultilineText)]
     [Display(Name = "Description", Prompt = "Enter a description")]
@@ -39,6 +39,6 @@ public class AddProjectForm
     
     public string? UserId { get; set; }
 
-    
-    public int? StatusId { get; set; }
+    [Required]
+    public int StatusId { get; set; }
 }

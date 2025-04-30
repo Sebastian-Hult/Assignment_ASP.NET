@@ -56,19 +56,19 @@
         })
     })
 
-    // handle image-previewer
-    //document.querySelectorAll('.image-previewer').forEach(previewer => {
-    //    const fileInput = previewer.querySelector('input[type="file"]')
-    //    const imagePreview = previewer.querySelector('.image-preview')
+     //handle image-previewer
+    document.querySelectorAll('.image-previewer').forEach(previewer => {
+        const fileInput = previewer.querySelector('input[type="file"]')
+        const imagePreview = previewer.querySelector('.image-preview')
 
-    //    previewer.addEventListener('click', () => fileInput.click())
+        previewer.addEventListener('click', () => fileInput.click())
 
-    //    fileInput.addEventListener('change', ({ target: { files } }) => {
-    //        const file = files[0]
-    //        if (file)
-    //            processImage(file, imagePreview, previewer, previewSize)
-    //    })
-    //})
+        fileInput.addEventListener('change', ({ target: { files } }) => {
+            const file = files[0]
+            if (file)
+                processImage(file, imagePreview, previewer, previewSize)
+        })
+    })
 
     // handle submit forms
     const forms = document.querySelectorAll('form')

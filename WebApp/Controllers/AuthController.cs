@@ -9,16 +9,16 @@ public class AuthController(IAuthService authService) : Controller
 {
     private readonly IAuthService _authService = authService;
 
-    public IActionResult SignIn()
+    public IActionResult SignIn(/*string returnUrl = "~/"*/)
     {
-        //ViewBag.ErrorMessage = "";
+        ViewBag.ErrorMessage = "";
         //ViewBag.ReturnUrl = returnUrl;
 
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignIn(SignInViewModel model/*, string returnUrl = "/project/index"*/)
+    public async Task<IActionResult> SignIn(SignInViewModel model/*, string returnUrl = "~/"*/)
      {
         ViewBag.ErrorMessage = "";
         //ViewBag.ReturnUrl = returnUrl;

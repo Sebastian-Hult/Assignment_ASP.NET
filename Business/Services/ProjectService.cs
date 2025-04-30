@@ -13,7 +13,7 @@ public interface IProjectService
     Task<bool> DeleteProjectAsync(string id);
     Task<Project> GetProjectAsync(string id);
     Task<IEnumerable<Project>> GetProjectsAsync();
-    Task<Project> UpdateProjectAsync(EditProjectForm form);
+    Task<ProjectEntity> UpdateProjectAsync(EditProjectForm form);
 }
 
 public class ProjectService(IProjectRepository projectRepository) : IProjectService
@@ -49,11 +49,11 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         return project ?? null!;
     }
 
-    public async Task<Project> UpdateProjectAsync(EditProjectForm form)
+    public async Task<ProjectEntity> UpdateProjectAsync(EditProjectForm form)
     {
         var entity = await _projectRepository.UpdateAsync(x => x.ProjectName == form.ProjectName, ProjectFactory.UpdateProject(form));
-        var project = ProjectFactory.CreateProject(entity);
-        return project ?? null!;
+        //var project = ProjectFactory.CreateProject(entity);
+        return entity ?? null!;
     }
 
     public async Task<bool> DeleteProjectAsync(string id)
