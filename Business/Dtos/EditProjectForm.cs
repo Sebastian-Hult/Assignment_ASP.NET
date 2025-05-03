@@ -4,10 +4,12 @@ namespace Business.Dtos;
 
 public class EditProjectForm
 {
+    public string Id { get; set; } = null!;
+
     public string? ProjectImage { get; set; }
 
     [DataType(DataType.Text)]
-    //[Required(ErrorMessage = "Project name is required")]
+    [Required(ErrorMessage = "Project name is required")]
     [Display(Name = "Project Name", Prompt = "Enter project name")]
     public string? ProjectName { get; set; }
 

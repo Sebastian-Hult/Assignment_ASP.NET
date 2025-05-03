@@ -130,18 +130,18 @@ function clearErrorMessages(form) {
     })
 }
 
-function addErrorMessage(key, errorMessage) {
-    const input = form.querySelector(`[name="${key}"]`)
-    if (input) {
-        input.classList.add('input-validation-error')
-    }
+//function addErrorMessage(key, errorMessage) {
+//    const input = form.querySelector(`[name="${key}"]`)
+//    if (input) {
+//        input.classList.add('input-validation-error')
+//    }
 
-    const errorSpan = form.querySelector(`[data-valmsg-for="${key}"]`)
-    if (span) {
-        errorSpan.innerText = errorMessage
-        errorSpan.classList.add('field-validation-error')
-    }
-}
+//    const errorSpan = form.querySelector(`[data-valmsg-for="${key}"]`)
+//    if (span) {
+//        errorSpan.innerText = errorMessage
+//        errorSpan.classList.add('field-validation-error')
+//    }
+//}
 
 async function loadImage(file) {
     return new Promise((resolve, reject) => {

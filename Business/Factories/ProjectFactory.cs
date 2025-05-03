@@ -23,7 +23,7 @@ public static class ProjectFactory
     {
         Id = entity.Id,
         ProjectName = entity.ProjectName,
-        Image = entity.Image,
+        ProjectImage = entity.Image,
         Description = entity.Description,
         StartDate = entity.StartDate,
         EndDate = entity.EndDate,
@@ -32,8 +32,6 @@ public static class ProjectFactory
         ClientId = entity.ClientId,
         ClientName = entity.Client.ClientName,
         UserId = entity.UserId,
-        UserFirstName = entity.User.FirstName,
-        UserLastName = entity.User.LastName,
         StatusId = entity.StatusId,
         Status = entity.Status.StatusName
     };

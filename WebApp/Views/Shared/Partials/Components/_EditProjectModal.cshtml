@@ -15,14 +15,25 @@
                 <input accept="image/*" class="d-none" />
             </div>
 
+            <input type="hidden" asp-for="Form.Id"/>
+
             <div class="form-group">
                 <label asp-for="Form.ProjectName">Project Name</label>
                 <div class="field-group">
-                    <input asp-for="Form.ProjectName" class="input-validation-error" type="text" placeholder="Project name" />
-                    <span asp-validation-for="Form.ProjectName" class="field-validation-error"></span>
+                    <input asp-for="Form.ProjectName" type="text" placeholder="Project name" />
+                    <span asp-validation-for="Form.ProjectName"></span>
                 </div>
             </div>
             <div class="form-group">
+                <label asp-for="Form.ClientName"></label>
+                <div class="field-group">
+                    <select asp-for="Form.ClientId" asp-items="ViewBag.Clients">
+                        <option value="">-- Choose a Client --</option>
+                    </select>
+                    <span asp-validation-for="Form.ClientName"></span>
+                </div>
+            </div>
+@*             <div class="form-group">
                 <label asp-for="Form.ClientName">Client</label>
                 <div class="field-group">
                     <select asp-for="Form.ClientName" name="client" id="client">
@@ -37,38 +48,47 @@
                     </select>
                     <span asp-validation-for="Form.ClientName" class="field-validation-error">Required</span>
                 </div>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="Form.Description">Description</label>
                 <div class="field-group">
-                    <input asp-for="Form.Description" class="input-validation-error" type="text" placeholder="Type something" />
-                    <span asp-validation-for="Form.Description" class="field-validation-error"></span>
+                    <input asp-for="Form.Description" type="text" placeholder="Type something" />
+                    <span asp-validation-for="Form.Description"></span>
                 </div>
             </div>
             <div class="form-group-date">
                 <div>
                     <label asp-for="Form.StartDate">Start Date</label>
                     <div class="field-group">
-                        <input asp-for="Form.StartDate" class="input-validation-error" type="date" placeholder="Enter start date" />
-                        <span asp-validation-for="Form.StartDate" class="field-validation-error"></span>
+                        <input asp-for="Form.StartDate" type="date" placeholder="Enter start date" />
+                        <span asp-validation-for="Form.StartDate"></span>
                     </div>
                 </div>
                 <div>
                     <label asp-for="Form.EndDate">End Date</label>
                     <div class="field-group">
-                        <input asp-for="Form.EndDate" class="input-validation-error" type="date" placeholder="Enter end date" />
-                        <span asp-validation-for="Form.EndDate" class="field-validation-error"></span>
+                        <input asp-for="Form.EndDate" type="date" placeholder="Enter end date" />
+                        <span asp-validation-for="Form.EndDate"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="Form.Budget">Budget</label>
                 <div class="field-group">
-                    <input asp-for="Form.Budget" class="input-validation-error" type="text" placeholder="0" />
-                    <span asp-validation-for="Form.Budget" class="field-validation-error">Required</span>
+                    <input asp-for="Form.Budget" type="text" placeholder="0" />
+                    <span asp-validation-for="Form.Budget"></span>
                 </div>
             </div>
             <div class="form-group">
+                <label asp-for="Form.Status"></label>
+                <div class="field-group">
+                    <select asp-for="Form.StatusId" asp-items="ViewBag.Statuses">
+                        <option value="">-- Choose a Status --</option>
+                    </select>
+                    <span asp-validation-for="Form.Status"></span>
+                </div>
+            </div>
+@*             <div class="form-group">
                 <label asp-for="Form.Status">Status</label>
                 <div class="field-group">
                     <select asp-for="Form.StatusId" name="status" id="status">
@@ -83,11 +103,13 @@
                     </select>
                     <span asp-validation-for="Form.Status" class="field-validation-error">Required</span>
                 </div>
-            </div>
+            </div> *@
 
             <button class="btn btn-blue btn-submit">Save</button>
 
         </form>
     </div>
 </div>
+
+
 

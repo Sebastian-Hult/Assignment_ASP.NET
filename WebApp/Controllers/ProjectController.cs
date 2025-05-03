@@ -11,7 +11,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApp.Controllers;
 
-[Authorize]
+//[Authorize]
 public class ProjectController(IProjectService projectService, IClientRepository clientRepository, IStatusRepository statusRepository, IAuthService authService, IUserRepository userRepository) : Controller
 {
     private readonly IProjectService _projectService = projectService;
@@ -24,8 +24,9 @@ public class ProjectController(IProjectService projectService, IClientRepository
     public async Task<IActionResult> Index()
     {
         var clients = await _clientRepository.GetAllAsync();
+        var statuses = await _statusRepository.GetAllAsync();
 
-        var selectListItems = clients
+        var selectListItemClient = clients
             .Select(x => new SelectListItem
             {
                 Text = x.ClientName,
@@ -33,7 +34,16 @@ public class ProjectController(IProjectService projectService, IClientRepository
             })
             .ToList();
 
-        ViewBag.Clients = selectListItems;
+        var selectListItemStatus = statuses
+            .Select(x => new SelectListItem
+            {
+                Text = x.StatusName,
+                Value = x.Id.ToString()
+            })
+            .ToList();
+
+        ViewBag.Clients = selectListItemClient;
+        ViewBag.Statuses = selectListItemStatus;
 
         var pvm = new ProjectsViewModel
         {
@@ -69,7 +79,7 @@ public class ProjectController(IProjectService projectService, IClientRepository
             model.Form.ClientName = client.ClientName;
 
         model.Form.StatusId = 2;
-        model.Form.UserId = userId; // TODO: Get user ID from auth service
+        model.Form.UserId = userId;
 
         if (!ModelState.IsValid)
         {
@@ -116,6 +126,14 @@ public class ProjectController(IProjectService projectService, IClientRepository
     [HttpPost]
     public async Task<IActionResult> EditProject(EditProjectViewModel model)
     {
+        var existingProject = await _projectService.GetProjectAsync(model.Form.Id);
+
+        ViewBag.ExistingProject = existingProject;
+
+        existingProject.UserId = model.Form.UserId!;
+
+        var client = await _clientRepository.GetAsync(x => x.Id == model.Form.ClientId);
+
         if (!ModelState.IsValid)
         {
             var errors = ModelState
@@ -128,20 +146,50 @@ public class ProjectController(IProjectService projectService, IClientRepository
             return BadRequest(new { success = false, errors });
         }
 
-        var editProjectForm = new EditProjectForm
-        {
-            ProjectImage = model.Form.ProjectImage,
-            ProjectName = model.Form.ProjectName,
-            ClientName = model.Form.ClientName,
-            Description = model.Form.Description,
-            StartDate = model.Form.StartDate,
-            EndDate = model.Form.EndDate,
-            Budget = model.Form.Budget,
-            Status = model.Form.Status,
-        };
+        if (!string.IsNullOrEmpty(model.Form.ProjectImage))
+            existingProject.ProjectImage = model.Form.ProjectImage;
 
-        var result = await _projectService.UpdateProjectAsync(editProjectForm);
-        if (result == null)
+        if (!string.IsNullOrEmpty(model.Form.ProjectName))
+            existingProject.ProjectName = model.Form.ProjectName;
+
+        if (!string.IsNullOrEmpty(model.Form.ClientId))
+            existingProject.ClientId = model.Form.ClientId;
+
+        if (!string.IsNullOrEmpty(model.Form.Description))
+            existingProject.Description = model.Form.Description;
+
+        //if (model.Form.StartDate.HasValue)
+        //    existingProject.StartDate = model.Form.StartDate.Value;
+
+        if (model.Form.EndDate.HasValue)
+            existingProject.EndDate = model.Form.EndDate;
+
+        if (model.Form.Budget.HasValue)
+            existingProject.Budget = model.Form.Budget;
+
+        //if (model.Form.StatusId.HasValue)
+        //    existingProject.StatusId = model.Form.StatusId.Value;
+
+        if (existingProject.ClientId == model.Form.ClientId)
+            existingProject.ClientName = model.Form.ClientName!;
+
+        if (existingProject.StatusId == model.Form.StatusId)
+            existingProject.Status = model.Form.Status!;
+
+        //var editProjectForm = new EditProjectForm
+        //{
+        //    ProjectImage = model.Form.ProjectImage,
+        //    ProjectName = model.Form.ProjectName,
+        //    ClientName = model.Form.ClientName,
+        //    Description = model.Form.Description,
+        //    StartDate = model.Form.StartDate,
+        //    EndDate = model.Form.EndDate,
+        //    Budget = model.Form.Budget,
+        //    Status = model.Form.Status,
+        //};
+
+        //var result = await _projectService.UpdateProjectAsync(existingProject);
+        //if (result == null)
         {
             var errors = ModelState
                 .Where(x => x.Value?.Errors.Count > 0)
@@ -153,7 +201,7 @@ public class ProjectController(IProjectService projectService, IClientRepository
             return BadRequest(new { success = false, errors });
         }
 
-        return Ok();
+        //return Ok();
     }
 
     public async Task<IActionResult> DeleteProject(string id)
