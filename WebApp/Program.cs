@@ -16,7 +16,7 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configura
 
 builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 {
-    //x.SignIn.RequireConfirmedAccount = false;
+    x.SignIn.RequireConfirmedAccount = false;
     x.User.RequireUniqueEmail = true;
     x.Password.RequiredLength = 8;
 }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
@@ -53,7 +53,7 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-//app.UseRewriter(new RewriteOptions().AddRedirect("^$", "/project/index"));
+app.UseRewriter(new RewriteOptions().AddRedirect("^$", "/project/index"));
 
 app.MapControllerRoute(
     name: "default",

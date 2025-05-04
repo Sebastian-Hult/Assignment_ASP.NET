@@ -33,6 +33,9 @@ public class ProjectRepository(DataContext context) : BaseRepository<ProjectEnti
             .Include(x => x.Status)
             .FirstOrDefaultAsync(findBy);
 
+        Console.WriteLine($"StatusId: {entity?.StatusId}");
+        Console.WriteLine($"Status: {entity?.Status}");
+
         return entity;
     }
 }

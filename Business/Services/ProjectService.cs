@@ -51,7 +51,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
     public async Task<ProjectEntity> UpdateProjectAsync(EditProjectForm form)
     {
-        var entity = await _projectRepository.UpdateAsync(x => x.ProjectName == form.ProjectName, ProjectFactory.UpdateProject(form));
+        var entity = await _projectRepository.UpdateAsync(x => x.Id == form.Id, ProjectFactory.UpdateProject(form));
         //var project = ProjectFactory.CreateProject(entity);
         return entity ?? null!;
     }

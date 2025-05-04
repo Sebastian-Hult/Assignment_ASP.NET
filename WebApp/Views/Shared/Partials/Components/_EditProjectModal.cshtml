@@ -10,17 +10,17 @@
 
         <form novalidate method="post" asp-action="EditProject" asp-controller="Project">
 
+            <input type="hidden" name="Form.Id" id="editProjectForm_Id" />
+
             <div class="image-previewer square">
                 <img src="" class="image-preview" />
                 <input accept="image/*" class="d-none" />
             </div>
 
-            <input type="hidden" asp-for="Form.Id"/>
-
             <div class="form-group">
                 <label asp-for="Form.ProjectName">Project Name</label>
                 <div class="field-group">
-                    <input asp-for="Form.ProjectName" type="text" placeholder="Project name" />
+                    <input asp-for="Form.ProjectName" type="text" placeholder="Project Name" />
                     <span asp-validation-for="Form.ProjectName"></span>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                 <label asp-for="Form.Status"></label>
                 <div class="field-group">
                     <select asp-for="Form.StatusId" asp-items="ViewBag.Statuses">
-                        <option value="">-- Choose a Status --</option>
+                        <option value="0">-- Choose a Status --</option>
                     </select>
                     <span asp-validation-for="Form.Status"></span>
                 </div>
@@ -105,7 +105,7 @@
                 </div>
             </div> *@
 
-            <button class="btn btn-blue btn-submit">Save</button>
+            <button type="submit" class="btn btn-blue btn-submit">Save</button>
 
         </form>
     </div>

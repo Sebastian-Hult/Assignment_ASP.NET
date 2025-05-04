@@ -28,12 +28,11 @@ public static class ProjectFactory
         StartDate = entity.StartDate,
         EndDate = entity.EndDate,
         Budget = entity.Budget,
-        Created = entity.Created,
         ClientId = entity.ClientId,
         ClientName = entity.Client.ClientName,
         UserId = entity.UserId,
         StatusId = entity.StatusId,
-        Status = entity.Status.StatusName
+        Status = entity.Status.StatusName 
     };
 
     public static ProjectEntity UpdateProject(EditProjectForm form) => new()

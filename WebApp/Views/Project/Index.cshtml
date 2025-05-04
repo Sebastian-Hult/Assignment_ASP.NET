@@ -1,8 +1,10 @@
-﻿@model ProjectsViewModel
+﻿@using Business.Models
+@model ProjectsViewModel
 
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Projects";
+    var projects = ViewBag.Projects as List<Project>;
 }
 
 <partial name="Partials/Components/_AddProjectModal" model="Model.AddProject" />
@@ -13,9 +15,9 @@
         <button type="button" data-modal="true" data-target="#addProjectModal" class="btn btn-blue"><i class="fa-solid fa-plus-large plus"></i> Add Project</button>
     </div>
     <div class="main-top-links">
-        <a href="#">ALL [@Model.Projects.Count()]</a>
-        <a href="#">STARTED [@Model.Projects.ToList().Count(x => x.StatusId == 1)]</a>
-        <a href="#">COMPLETED [@Model.Projects.ToList().Count(x => x.StatusId == 2)]</a>
+        <a asp-action="Index" asp-route-status="" class="@(ViewBag.CurrentStatus == null ? "active" : "")">ALL [@projects.Count()]</a>
+        <a asp-action="Index" asp-route-status="1" class="@(ViewBag.CurrentStatus == 1 ? "active" : "")">STARTED [@projects.Count(x => x.StatusId == 1)]</a>
+        <a asp-action="Index" asp-route-status="2" class="@(ViewBag.CurrentStatus == 2 ? "active" : "")">COMPLETED [@projects.Count(x => x.StatusId == 2)]</a>
     </div>
 </div>
 

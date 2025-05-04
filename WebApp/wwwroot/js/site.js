@@ -2,10 +2,23 @@
 
     const previewSize = 150
 
+    const editButtons = document.querySelectorAll('.option.edit')
+    editButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelector('#editProjectForm_Id').value = button.dataset.id
+        })
+    })
+
     //open modals
     const modalButtons = document.querySelectorAll('[data-modal="true"]')
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
+            //const projectId = this.getAttribute('data-id')
+            //if (projectId) {
+            //    document.querySelector('#editProjectModal input[name="Form.Id"]').value = projectId
+            //}
+            
+
             const modalTarget = button.getAttribute('data-target')
             const modal = document.querySelector(modalTarget)
 
@@ -24,7 +37,7 @@
 
                 //clear formdata
                 modal.querySelectorAll('form').forEach(form => {
-                    form.reser()
+                    form.reset()
 
                     const imagePreview = form.querySelector('.image-preview')
                     if (imagePreview)
