@@ -32,22 +32,6 @@
                         <span asp-validation-for="Form.ClientName"></span>
                     </div>
                 </div>
-
-@*                 <div class="form-group">
-                <label asp-for="Form.ClientName"></label>
-                    <div class="field-group">
-                    <select asp-for="Form.ClientId" name="client" id="client">
-                        <option value="">-- Choose a Client --</option>
-                        @foreach (var client in ViewBag.Clients)
-                        {
-                            <option value="@client.Id">
-                                @client.ClientName
-                            </option>
-                        }
-                    </select>
-                    <span asp-validation-for="Form.ClientName"></span>
-                    </div>
-                </div> *@
                 <div class="form-group">
                 <label asp-for="Form.Description"></label>
                     <div class="field-group">

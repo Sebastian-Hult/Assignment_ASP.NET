@@ -8,17 +8,36 @@
             <h4 class="project-name">@Model.ProjectName</h4>
             <p class="project-client">@Model.ClientName</p>
         </div>
+        
+        
         <div type="button" data-option="true" data-target="#addProjectOptions"><i class="fa-solid fa-ellipsis btn-more"></i></div>
         <div id="addProjectOptions" class="surface-sm options">
             <div type="button" data-modal="true" data-target="#editProjectModal" class="option edit" data-id="@Model.Id">
                 <i class="fa-duotone fa-solid fa-pen-line"></i>
                 <p>Edit</p>
             </div>
-            <div class="option delete">
+            <div type="button" class="option delete delete-button" id="deleteProject-@Model.Id">
                 <i class="fa-duotone fa-solid fa-trash"></i>
-                <a asp-action="DeleteProject" asp-controller="Project" asp-route-id="@Model.Id">Delete Project</a>
+                <p>Delete Project</p>
+                 @* <a asp-action="DeleteProject" asp-controller="Project" asp-route-id="@Model.Id">Delete Project</a>  *@
+                @* <button type="button" class="delete-button" id="deleteProject-@Model.Id">Delete Project</button> *@
             </div>
         </div>
+
+@*         <div id="project-actions-container">
+            <button id="toggleBtn-@Model.Id" type="button" data-type="dropdown" data-target="#project-dropdown-@Model.Id">
+                <i class="fa-solid fa-ellipsis"></i>
+            </button>
+            <div class="dropdown" id="project-dropdown-@Model.Id">
+                <div class="">
+                    <nav>
+                        <button type="button" class="delete-button" style="border:none;" id="deleteProject-@Model.Id">Delete Project</button>
+                    </nav>
+                </div>
+            </div>
+        </div> *@
+
+
     </div>
     <p class="project-desc">@Model.Description</p>
 </div>

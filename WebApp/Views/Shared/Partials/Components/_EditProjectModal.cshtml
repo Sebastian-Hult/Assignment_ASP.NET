@@ -14,7 +14,7 @@
 
             <div class="image-previewer square">
                 <img src="" class="image-preview" />
-                <input accept="image/*" class="d-none" />
+                <input asp-for="Form.ProjectImage" type="file" accept="image/*" class="d-none" />
             </div>
 
             <div class="form-group">
@@ -33,22 +33,6 @@
                     <span asp-validation-for="Form.ClientName"></span>
                 </div>
             </div>
-@*             <div class="form-group">
-                <label asp-for="Form.ClientName">Client</label>
-                <div class="field-group">
-                    <select asp-for="Form.ClientName" name="client" id="client">
-                        <option value="">-- Choose a Client --</option>
-                        @foreach (var client in Model.Clients) 
-                        { 
-                            <option value="@client.Id" selected="@(client.Id == Model.Form.ClientId ? "selected" : null)">
-                                @client.ClientName
-                            </option> 
-                        } 
-
-                    </select>
-                    <span asp-validation-for="Form.ClientName" class="field-validation-error">Required</span>
-                </div>
-            </div> *@
             <div class="form-group">
                 <label asp-for="Form.Description">Description</label>
                 <div class="field-group">
@@ -88,22 +72,6 @@
                     <span asp-validation-for="Form.Status"></span>
                 </div>
             </div>
-@*             <div class="form-group">
-                <label asp-for="Form.Status">Status</label>
-                <div class="field-group">
-                    <select asp-for="Form.StatusId" name="status" id="status">
-                        <option value="">-- Choose a Status --</option>
-                        @foreach (var status in Model.Statuses)
-                        {
-                            <option value="@status.Id" selected="@(status.Id == Model.Form.StatusId ? "selected" : null)">
-                                @status.StatusName
-                            </option>
-                        }
-
-                    </select>
-                    <span asp-validation-for="Form.Status" class="field-validation-error">Required</span>
-                </div>
-            </div> *@
 
             <button type="submit" class="btn btn-blue btn-submit">Save</button>
 

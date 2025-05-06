@@ -13,11 +13,6 @@
     const modalButtons = document.querySelectorAll('[data-modal="true"]')
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
-            //const projectId = this.getAttribute('data-id')
-            //if (projectId) {
-            //    document.querySelector('#editProjectModal input[name="Form.Id"]').value = projectId
-            //}
-            
 
             const modalTarget = button.getAttribute('data-target')
             const modal = document.querySelector(modalTarget)
@@ -69,10 +64,14 @@
         })
     })
 
+
      //handle image-previewer
     document.querySelectorAll('.image-previewer').forEach(previewer => {
         const fileInput = previewer.querySelector('input[type="file"]')
         const imagePreview = previewer.querySelector('.image-preview')
+
+        if (!fileInput || !imagePreview)
+            return
 
         previewer.addEventListener('click', () => fileInput.click())
 
@@ -100,6 +99,7 @@
                 })
 
                 if (res.ok) {
+                    
                     const modal = form.closest('.modal')
                     if (modal)
                         modal.style.display = 'none';
@@ -131,7 +131,85 @@
         })
     })
 
+    //handle delete-project buttons
+
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', async function () {
+            const projectId = this.getAttribute('id').replace('deleteProject-', '');
+
+            const confirmDelete = confirm('Are you sure you want to delete this project?');
+            if (!confirmDelete)
+                return
+
+            try {
+
+                const res = await fetch(`/Project/DeleteProject/${projectId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                })
+
+                const data = await res.json()
+               
+
+                if (data.success) {
+                    window.location.reload()
+                    return;
+                } else {
+                    alert('Failed to delete project: ' + data.message)
+                    return;
+                }
+
+
+            } catch (error) {
+                console.error('Failed to delete project:', error)
+            }
+
+        })
+    })
+
+
+    //initDropdowns();
+
 })
+
+// Haven't added any dropdowns yet so I chose to comment this out for now
+
+//function initDropdowns() {
+
+//    document.addEventListener('click', (event) => {
+
+//        let clickedInsideDropdown = false;
+
+//        document.querySelectorAll('[data-type="dropdown"]').forEach(dropdownTrigger => {
+//            const targetId = dropdownTrigger.getAttribute('data-target')
+//            const dropdown = document.querySelector(targetId)
+
+//            if (dropdownTrigger.contains(event.target)) {
+//                clickedInsideDropdown = true;
+
+//                document.querySelectorAll('.dropdown.show').forEach(openDropdown => {
+//                    if (openDropdown !== dropdown) {
+//                        openDropdown.classList.remove('show');
+//                    }
+//                })
+
+//                dropdown?.classList.toggle('show')
+
+//            }
+           
+//        })
+
+//        if (!clickedInsideDropdown && !event.target.closest('.dropdown')) {
+//            document.querySelectorAll('.dropdown.show').forEach(openDropdown => {
+//                openDropdown.classList.remove('show')
+//            })
+//        }
+//    })
+//}
+
 
 function clearErrorMessages(form) {
     form.querySelectorAll('[data-val="true"]').forEach(input => {
@@ -142,19 +220,6 @@ function clearErrorMessages(form) {
         span.classList.remove('field-validation-error')
     })
 }
-
-//function addErrorMessage(key, errorMessage) {
-//    const input = form.querySelector(`[name="${key}"]`)
-//    if (input) {
-//        input.classList.add('input-validation-error')
-//    }
-
-//    const errorSpan = form.querySelector(`[data-valmsg-for="${key}"]`)
-//    if (span) {
-//        errorSpan.innerText = errorMessage
-//        errorSpan.classList.add('field-validation-error')
-//    }
-//}
 
 async function loadImage(file) {
     return new Promise((resolve, reject) => {

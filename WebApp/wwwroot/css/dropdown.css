@@ -1,0 +1,25 @@
+﻿#project-actions-container {
+
+   
+    position: relative;
+    border: 1px solid black;
+    
+
+}
+
+#project-actions-container .dropdown {
+    
+    display: none;
+    border: 1px solid red;
+    position: absolute;
+    top: 5px;
+    
+    height: 150px;
+    padding: 2rem;
+
+}
+
+
+.show {
+    display: block!important;
+}

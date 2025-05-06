@@ -397,6 +397,19 @@ html, body {
     color: var(--red-color);
 }
 
+/*.option.delete button {
+    font-size: 16px;
+    font-weight: var(--font-regular);
+    padding: .8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: background-color 0.1s ease-in-out;
+    background-color: transparent;
+    border-radius: 16px;
+    cursor: pointer;
+}*/
+
 
 /* typography */
 h1, h2, h3, h4, h5, h6 {

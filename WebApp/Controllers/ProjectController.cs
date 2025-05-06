@@ -13,23 +13,19 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApp.Controllers;
 
-//[Authorize]
-public class ProjectController(IProjectService projectService, IClientRepository clientRepository, IStatusRepository statusRepository, IAuthService authService, IUserRepository userRepository, IProjectRepository projectRepository) : Controller
+[Authorize]
+public class ProjectController(IProjectService projectService, IClientRepository clientRepository, IStatusRepository statusRepository, IAuthService authService, IUserRepository userRepository) : Controller
 {
     private readonly IProjectService _projectService = projectService;
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly IStatusRepository _statusRepository = statusRepository;
     private readonly IAuthService _authService = authService;
     private readonly IUserRepository _userRepository = userRepository;
-    private readonly IProjectRepository _projectRepository = projectRepository;
 
-    //[Authorize]
     public async Task<IActionResult> Index(int? status, string id)
     {
         var clients = await _clientRepository.GetAllAsync();
         var statuses = await _statusRepository.GetAllAsync();
-        //var project = await _projectService.GetProjectAsync(id);
-        //var project = await _projectRepository.GetAsync(x => x.Id == id);
 
         var selectListItemClient = clients
             .Select(x => new SelectListItem
@@ -51,7 +47,6 @@ public class ProjectController(IProjectService projectService, IClientRepository
         ViewBag.Statuses = selectListItemStatus;
 
         var projects = await _projectService.GetProjectsAsync();
-        //var projects = await _projectRepository.GetAllAsync();
         var filteredProjects = projects;
 
         if (status.HasValue)
@@ -69,12 +64,6 @@ public class ProjectController(IProjectService projectService, IClientRepository
             },
             EditProject = new EditProjectViewModel
             {
-                //Form = new EditProjectForm()
-                //{
-                //    Id = project.Id
-                //},
-                //Projects = await _projectService.GetProjectsAsync(),
-                //Projects = await _projectRepository.GetAllAsync(),
                 Clients = await _clientRepository.GetAllAsync(),
                 Statuses = await _statusRepository.GetAllAsync(),
             }
@@ -141,7 +130,6 @@ public class ProjectController(IProjectService projectService, IClientRepository
     public async Task<IActionResult> EditProject(EditProjectViewModel model)
     {
         var existingProject = await _projectService.GetProjectAsync(model.Form.Id);
-        //var existingProject = await _projectRepository.GetAsync(x => x.Id == model.Form.Id);
         var client = await _clientRepository.GetAsync(x => x.Id == model.Form.ClientId);
         var status = await _statusRepository.GetAsync(x => x.Id == existingProject.StatusId);
 
@@ -175,7 +163,6 @@ public class ProjectController(IProjectService projectService, IClientRepository
             ProjectImage = !string.IsNullOrWhiteSpace(model.Form.ProjectImage)
                 ? model.Form.ProjectImage
                 : existingProject.ProjectImage,
-            //: existingProject.Image,
 
 
             ProjectName = !string.IsNullOrWhiteSpace(model.Form.ProjectName)
@@ -191,7 +178,6 @@ public class ProjectController(IProjectService projectService, IClientRepository
             ClientName = model.Form.ClientId != existingProject.ClientId
                 ? model.Form.ClientName
                 : existingProject.ClientName,
-                //: existingProject.Client.ClientName,
 
 
             Description = !string.IsNullOrWhiteSpace(model.Form.Description)
@@ -218,7 +204,6 @@ public class ProjectController(IProjectService projectService, IClientRepository
             Status = model.Form.StatusId != existingProject.StatusId
                 ? model.Form.Status
                 : existingProject.Status,
-                //: existingProject.Status.StatusName,
 
 
             UserId = model.Form.UserId,
@@ -242,8 +227,13 @@ public class ProjectController(IProjectService projectService, IClientRepository
 
     public async Task<IActionResult> DeleteProject(string id)
     {
-        await _projectService.DeleteProjectAsync(id);
+       var result = await _projectService.DeleteProjectAsync(id);
+        if (!result)
+        {
+         
+            return Conflict(new { success = false, errors = "somwthing went wrong, please try again" });
+        }
 
-        return Ok();
+        return Ok( new {success = true});
     }
 }

@@ -37,6 +37,7 @@ public static class ProjectFactory
 
     public static ProjectEntity UpdateProject(EditProjectForm form) => new()
     {
+        Id = form.Id,
         ProjectName = form.ProjectName,
         Image = form.ProjectImage,
         Description = form.Description,
